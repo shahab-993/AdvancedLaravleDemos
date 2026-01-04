@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script>
         function searchEmployees(page = 1) {
             let query = $('#search').val();
             let perPage = $('#recordsPerPage').val();
@@ -103,7 +103,7 @@
             let page = $(this).attr('href').split('page=')[1];
             searchEmployees(page);
         });
-    </script>
+    </script> --}}
 
 
 
