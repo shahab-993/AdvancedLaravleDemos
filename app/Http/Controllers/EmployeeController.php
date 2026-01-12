@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
-use App\Models\Department;
 use App\Models\Employee;
+use App\Models\Department;
 
 
 
+use App\Mail\EmployeeAdded;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EmployeeController extends Controller
 {
@@ -45,7 +47,8 @@ class EmployeeController extends Controller
         return view('employees.create',compact('countries','departments'));
     }
     public function store(Request $request){
-        Employee::create($request->all());
+       $employee= Employee::create($request->all());
+       Mail::to($employee->email)->send(new EmployeeAdded($employee));
         return redirect()->route('employees.index')->with('success','Employee created successfully!');
     }
    }
