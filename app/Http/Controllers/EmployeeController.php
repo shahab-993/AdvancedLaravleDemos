@@ -38,4 +38,14 @@ class EmployeeController extends Controller
         $employee->delete();
         return redirect()->route('employees.index')->with('success','Employee deleted successfully!');
     }
+
+    public function create(){
+        $departments=Department::all();
+        $countries=Country::all();
+        return view('employees.create',compact('countries','departments'));
+    }
+    public function store(Request $request){
+        Employee::create($request->all());
+        return redirect()->route('employees.index')->with('success','Employee created successfully!');
+    }
    }

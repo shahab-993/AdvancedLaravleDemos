@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<a href="{{ route('employees.create') }}" class="btn btn-primary mb-3">Add New Employee</a>
 
 <table class="table table-striped">
     <thead>
