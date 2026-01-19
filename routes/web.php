@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeDIDemoController;
+use App\Http\Controllers\EmployeeFirltersController;
 use App\Http\Controllers\ValidationsDemoController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,4 @@ Route::put('/employeesDI/{id}', [EmployeeDIDemoController::class, 'update'])->na
 Route::get('/validationsdemo', [ValidationsDemoController::class,'create'])->name('validationsdemo.create');
 Route::post('/validationsdemo', [ValidationsDemoController::class,'store'])->name('validationsdemo.store');
 
-
+Route::get('/employeefilters',[EmployeeFirltersController::class,'index'])->name('employeefilters.index');
