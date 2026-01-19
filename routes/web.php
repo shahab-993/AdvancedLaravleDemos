@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeDIDemoController;
+use App\Http\Controllers\ValidationsDemoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +28,9 @@ Route::get('/employeesDI/{id}', [EmployeeDIDemoController::class, 'show'])->name
 Route::delete('/employeesDI/delete/{id}', [EmployeeDIDemoController::class, 'destroy'])->name('employeesDI.destroy');
 
 Route::get('/employeesDI/{id}/edit', [EmployeeDIDemoController::class, 'edit'])->name('employeesDI.edit');
-Route::put('/employeesDI/{id}', [EmployeeDIDemoController::class, 'update'])->name('employeesDI.update'); 
+Route::put('/employeesDI/{id}', [EmployeeDIDemoController::class, 'update'])->name('employeesDI.update');
+
+Route::get('/validationsdemo', [ValidationsDemoController::class,'create'])->name('validationsdemo.create');
+Route::post('/validationsdemo', [ValidationsDemoController::class,'store'])->name('validationsdemo.store');
 
 
