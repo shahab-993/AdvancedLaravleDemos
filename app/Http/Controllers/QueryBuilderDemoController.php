@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
-use App\Models\Employee;
-use App\Models\Department;
 use Illuminate\Http\Request;
+use DB;
 
-class EmployeeFiltersController extends Controller {
-
+class QueryBuilderDemoController extends Controller {
     public function index( Request $request ) {
-        $query = Employee::with( [ 'department', 'country' ] );
+        //$query = Employee::with( [ 'department', 'country' ] );
+
+        $query = DB::table( 'employees' )
+        ->join( 'departments', 'employees.department_id', '=', 'departments.id' )
+        ->join( 'countries', 'employees.country_id', '=', 'countries.id' )
+        ->select( 'employees.*', 'departments.name as departmentname', 'countries.name as countryname' );
+
         $employees = collect( [] );
         $employees = $query->get();
 
         if ( $request->filled( 'search' ) ) {
             $search = $request->input( 'search' );
-            //$employees = $query->where( 'first_name', 'like', "%$search%" )->get();
+            $employees = $query->where( 'first_name', 'like', "%$search%" )->get();
+            // dd( $employees );
             //$employees = $query->where( 'first_name', 'not like', "%$search%" )->get();
 
             //$employees = $query->where( 'email', '=', $search )->get();
@@ -62,46 +66,52 @@ class EmployeeFiltersController extends Controller {
         //$employees = $query->orderBy( 'department_id', 'desc' )
         //->orderBy( 'country_id', 'asc' )->get();
 
-        $countries = Country::all();
-        $departments = Department::all();
+        //$countries = Country::all();
+        //$departments = Department::all();
+
+        $countries = DB::table( 'countries' )->get();
+        $departments = DB::table( 'departments' )->get();
 
         return view( 'employeefilters.index', compact( 'employees', 'countries', 'departments' ) );
 
     }
 
     public function queryfilter( Request $request ) {
-
         $results = null;
 
         // Find employee by ID
-        //$results = Employee::find( 12 );
+        // $results = DB::table( 'employees' )->where( 'id', 13 )->first();
 
-        //$results = Employee::find( [ 2, 3, 12 ] );
+        // Find multiple employees by IDs
+        $results = DB::table( 'employees' )->whereIn( 'id', [ 16, 19 ] )->get();
 
-        //$results = Employee::take( 1 )->get();
+        // Get one employee record
+        //$results = DB::table( 'employees' )->take( 1 )->get();
 
-        //$results = Employee::take( 3 )->get();
+        // dd( $results );
+        // Get first 3 employees
+        // $results = DB::table( 'employees' )->take( 3 )->get();
 
-        //$results = Employee::first();
+        // Get first employee
+        // $results = DB::table( 'employees' )->first();
 
-        //$results = Employee::orderBy( 'first_name' )->first();
+        // Order by firstname, then get the first employee
+        // $results = DB::table( 'employees' )->orderBy( 'first_name' )->first();
 
-        //$results = Employee::latest()->first();
+        // Get last employee
+        // $results = DB::table( 'employees' )->latest( 'id' )->first();
 
-        //$results = Employee::orderBy( 'first_name', 'desc' )->first();
+        // Order by firstname and get the last employee
+        // $results = DB::table( 'employees' )->orderBy( 'first_name', 'desc' )->first();
 
-        //$results = Employee::where( 'first_name', 'Gabriel' )->first();
-
-        //$results = Employee::where( 'id', '>', 10 )->orderByDesc( 'salary' )->get();
-
-        $results = Employee::join( 'departments', 'employees.department_id', '=', 'departments.id' )->get();
+        // Find employee by firstname
+        // $results = DB::table( 'employees' )->where( 'first_name', 'NickDiaz' )->first();
 
         if ( $results ) {
             return view( 'employeefilters.queryfilter', compact( 'results' ) );
         } else {
             return 'Employee Not Found.';
         }
-
     }
 
 }

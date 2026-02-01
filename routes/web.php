@@ -1,10 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeDIDemoController;
-use App\Http\Controllers\EmployeeFirltersController;
 use App\Http\Controllers\ValidationsDemoController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeFirltersController;
+use App\Http\Controllers\QueryBuilderDemoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,3 +36,9 @@ Route::get('/validationsdemo', [ValidationsDemoController::class,'create'])->nam
 Route::post('/validationsdemo', [ValidationsDemoController::class,'store'])->name('validationsdemo.store');
 
 Route::get('/employeefilters',[EmployeeFirltersController::class,'index'])->name('employeefilters.index');
+
+
+
+Route::get('employeequerybuilder', [QueryBuilderDemoController::class, 'index'])->name('employeeQB.index');
+Route::get('employeeQBfilters', [QueryBuilderDemoController::class, 'queryfilter'])->name('employeeQB.queryfilter');
+
